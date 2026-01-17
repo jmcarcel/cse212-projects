@@ -22,7 +22,7 @@ public static class Arrays
         // Remember: Using comments in your program, write down your process for solving this problem
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
-
+        //return the result
         return result; // replace this return statement with your own
     }
 
@@ -37,9 +37,11 @@ public static class Arrays
     {
         for (int i = 0; i < amount; i++)
         {
+            //save the numbers to rotate
             int numbers = data[data.Count - 3];
             //remove the lasts numbers
             data.RemoveAt(data.Count - 3);
+            //insert the stored numbers
             data.Insert(0, numbers);
         }
         // TODO Problem 2 Start
