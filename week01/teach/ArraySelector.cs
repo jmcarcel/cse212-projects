@@ -1,3 +1,6 @@
+using System.ComponentModel.Design;
+using Microsoft.VisualBasic;
+
 public static class ArraySelector
 {
     public static void Run()
@@ -11,6 +14,22 @@ public static class ArraySelector
 
     private static int[] ListSelector(int[] list1, int[] list2, int[] select)
     {
-        return [];
+        var results = new int[select.Length];
+        var li1 = 0;
+        var li2 = 0;
+        for (var i = 0; i < select.Length; i++)
+        {
+            if (select[i] == 1)
+            
+                results[i] = list1[li1++];
+            
+            else
+            
+                results[i] = list2[li2++];
+            
+        }
+        return results;
+    
     }
+    
 }
