@@ -1,5 +1,6 @@
 public static class Arrays
 {
+    
     /// <summary>
     /// This function will produce an array of size 'length' starting with 'number' followed by multiples of 'number'.  For 
     /// example, MultiplesOf(7, 5) will result in: {7, 14, 21, 28, 35}.  Assume that length is a positive
@@ -8,12 +9,21 @@ public static class Arrays
     /// <returns>array of doubles that are the multiples of the supplied number</returns>
     public static double[] MultiplesOf(double number, int length)
     {
+        //create an array for length
+        double[] result = new double[length];
+        //loop from 1 to length
+        for (int i = 1; i <= length; i++)
+        {
+            //we have to multiply the number by the loop counter
+            result[i - 1] = number * i; 
+        }
+
         // TODO Problem 1 Start
         // Remember: Using comments in your program, write down your process for solving this problem
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
 
-        return []; // replace this return statement with your own
+        return result; // replace this return statement with your own
     }
 
     /// <summary>
@@ -25,6 +35,13 @@ public static class Arrays
     /// </summary>
     public static void RotateListRight(List<int> data, int amount)
     {
+        for (int i = 0; i < amount; i++)
+        {
+            int numbers = data[data.Count - 3];
+            //remove the lasts numbers
+            data.RemoveAt(data.Count - 3);
+            data.Insert(0, numbers);
+        }
         // TODO Problem 2 Start
         // Remember: Using comments in your program, write down your process for solving this problem
         // step by step before you write the code. The plan should be clear enough that it could
