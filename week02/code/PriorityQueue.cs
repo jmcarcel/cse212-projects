@@ -1,4 +1,6 @@
-﻿public class PriorityQueue
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+public class PriorityQueue
 {
     private List<PriorityItem> _queue = new();
 
@@ -24,15 +26,17 @@
 
         // Find the index of the item with the highest priority to remove
         var highPriorityIndex = 0;
-        for (int index = 1; index < _queue.Count - 1; index++)
+        for (int index = 1; index < _queue.Count; index++)
         {
-            if (_queue[index].Priority >= _queue[highPriorityIndex].Priority)
+            if (_queue[index].Priority > _queue[highPriorityIndex].Priority)
                 highPriorityIndex = index;
         }
 
         // Remove and return the item with the highest priority
-        var value = _queue[highPriorityIndex].Value;
-        return value;
+        var item = _queue[highPriorityIndex];
+        _queue.RemoveAt(highPriorityIndex);
+
+        return item.Value;
     }
 
     // DO NOT MODIFY THE CODE IN THIS METHOD
