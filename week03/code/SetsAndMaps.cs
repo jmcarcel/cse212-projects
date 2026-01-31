@@ -21,8 +21,32 @@ public static class SetsAndMaps
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
     public static string[] FindPairs(string[] words)
     {
-        // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        var hashedWords = new HashSet<string>(words);
+        var pairsResult = new List<string>();
+
+        foreach (var word in words)
+        {
+            if (word.Length != 2)
+            {
+                continue;
+            }
+
+            if (word[0] == word[1])
+            {
+                continue;
+            }
+
+            var reversedPair = new string(new[] { word[1], word[0] });
+
+            if (hashedWords.Contains(reversedPair))
+            {
+                if (string.CompareOrdinal(word, reversedPair) < 0)
+                {
+                    pairsResult.Add($"{word} & {reversedPair}");
+                }
+            }
+        }
+        return pairsResult.ToArray();
     }
 
     /// <summary>
@@ -41,10 +65,29 @@ public static class SetsAndMaps
         var degrees = new Dictionary<string, int>();
         foreach (var line in File.ReadLines(filename))
         {
+            if (string.IsNullOrWhiteSpace(line))
+            {
+                continue;
+            }
             var fields = line.Split(",");
-            // TODO Problem 2 - ADD YOUR CODE HERE
+            if (fields.Length < 4)
+            {
+                continue;
+            }
+            var degree = fields[3].Trim();
+            if (degree.Length == 0)
+            {
+                continue;
+            }
+            if (degrees.TryGetValue(degree, out var count))
+            {
+                degrees[degree] = count + 1;
+            }
+            else
+            {
+                degrees[degree] = 1;
+            }
         }
-
         return degrees;
     }
 
@@ -66,8 +109,38 @@ public static class SetsAndMaps
     /// </summary>
     public static bool IsAnagram(string word1, string word2)
     {
-        // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        word1 = (word1 ?? string.Empty).Replace(" ", string.Empty).ToLowerInvariant();
+        word2 = (word2 ?? string.Empty).Replace(" ", string.Empty).ToLowerInvariant();
+
+        if (word1.Length != word2.Length)
+        {
+            return false;
+        }
+
+        var counts = new Dictionary<char, int>();
+
+        foreach (var ch in word1)
+        {
+            counts[ch] = counts.TryGetValue(ch, out var c) ? c + 1 : 1;
+        }
+        foreach (var ch in word2)
+        {
+            if (!counts.TryGetValue(ch, out var c))
+            {
+                return false;
+            }
+
+            c--;
+            if (c == 0)
+            {
+                counts.Remove(ch);
+            }
+            else
+            {
+                counts[ch] = c;
+            }
+        }
+        return counts.Count == 0;
     }
 
     /// <summary>
@@ -101,6 +174,30 @@ public static class SetsAndMaps
         // on those classes so that the call to Deserialize above works properly.
         // 2. Add code below to create a string out each place a earthquake has happened today and its magitude.
         // 3. Return an array of these string descriptions.
-        return [];
+
+        if (featureCollection?.Features is null || featureCollection.Features.Length == 0)
+        {
+            return [];
+        }
+
+        var earthquakeInformation = new List<string>(featureCollection.Features.Length);
+
+        foreach (var feature in featureCollection.Features)
+        {
+            var place = feature?.Properties?.Place;
+            var magnitude = feature?.Properties?.Mag;
+
+            if (string.IsNullOrWhiteSpace(place))
+            {
+                place = "Unknown location";
+            }
+
+            var magText = magnitude.HasValue ? magnitude.Value.ToString("0.##") : "N/A";
+
+            earthquakeInformation.Add($"{place} - Mag {magText}");
+        }
+
+        return earthquakeInformation.ToArray();
     }
+        
 }

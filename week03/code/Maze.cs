@@ -26,13 +26,27 @@ public class Maze
     }
 
     // TODO Problem 4 - ADD YOUR CODE HERE
+    private void Move(int directionIndex, int deltaX, int deltaY)
+    {
+        if (!_mazeMap.TryGetValue((_currX, _currY), out var directions) ||
+            directions is null ||
+            directions.Length < 4 ||
+            !directions[directionIndex])
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+
+        _currX += deltaX;
+        _currY += deltaY;
+    }
+
     /// <summary>
     /// Check to see if you can move left.  If you can, then move.  If you
     /// can't move, throw an InvalidOperationException with the message "Can't go that way!".
     /// </summary>
     public void MoveLeft()
     {
-        // FILL IN CODE
+        Move(directionIndex: 0, deltaX: -1, deltaY: 0);
     }
 
     /// <summary>
@@ -41,7 +55,7 @@ public class Maze
     /// </summary>
     public void MoveRight()
     {
-        // FILL IN CODE
+        Move(directionIndex: 1, deltaX: 1, deltaY: 0);
     }
 
     /// <summary>
@@ -50,7 +64,7 @@ public class Maze
     /// </summary>
     public void MoveUp()
     {
-        // FILL IN CODE
+        Move(directionIndex: 2, deltaX: 0, deltaY: -1);
     }
 
     /// <summary>
@@ -59,7 +73,7 @@ public class Maze
     /// </summary>
     public void MoveDown()
     {
-        // FILL IN CODE
+        Move(directionIndex: 3, deltaX: 0, deltaY: 1);
     }
 
     public string GetStatus()
